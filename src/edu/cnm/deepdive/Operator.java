@@ -2,6 +2,7 @@ package edu.cnm.deepdive;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import javax.imageio.ImageTranscoder;
 
 /**
  * Enumerated values representing operators in a postfix (RPN) calculator. Each operator has a token
@@ -31,26 +32,19 @@ public enum Operator {
    */
   Operator(String token) {
     this.token = token;
+    assert token.equals("*");
   }
-
-  /**
-   * Exercises the Operator enum by printing all of the enumerated values (as an array).
-   * @param args command lines arguments ignored
-   */
-  public static void main(String[] args) {
-    System.out.println(Arrays.toString(Operator.values()));
-  }
-
 
   @Override
   public String toString() {
     return  token;
   }
 
-  /**
-   * The operation method
-   * @param stack - the stack the specific operation is applied to.
-   */
   //TODO add operate method with switch; later version will use @Override;
 
+  //fixme
+  public static String tokenPattern(){
+
+    return "(?:^|\\s)(\\+|\\-|\\*|\\\\|\\^|\\%|sqrt)(?:\\s|$)";
+  }
 }
