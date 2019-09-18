@@ -85,6 +85,6 @@ public enum Operator implements Operation {
   public void calculate(LinkedList<Double> stack) {
     operation.calculate(stack);
   }
-
+  //TODO add operate method with switch; later version will use @Override;
 
 }
