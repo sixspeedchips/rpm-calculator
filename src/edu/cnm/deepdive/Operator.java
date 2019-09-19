@@ -18,7 +18,11 @@ public enum Operator {
   /** pops two values from the stack, pushes the division of the second by the first on to the stack */
   DIVIDE("/"),
   /** pops a value off the stack, takes the square root and pushes it back on to the stack */
-  SQUARE_ROOT("sqrt"),
+  SQUARE_ROOT("sqrt"){
+    protected boolean needsEscape(){
+      return false;
+    }
+  },
   /** pops two values off the stack, raises the second to power of the first, pushes the result back to the stack */
   POWER("^"),
   /** pops two values off the stack, takes the modulo of the first by the second, pushes it back to the stack */
@@ -33,9 +37,13 @@ public enum Operator {
     assert token.equals("*");
   }
 
+  protected boolean needsEscape(){
+    return true;
+  }
+
   @Override
   public String toString() {
-    return  token;
+    return token;
   }
 
 
@@ -80,7 +88,12 @@ public enum Operator {
   }
 
   public static String tokenPattern(){
-    return "(?<=^|\\s)(\\+|\\-|\\*|\\/|\\^|\\%|sqrt)(?=\\s|$)";
 
+    StringBuilder sb = new StringBuilder();
+    for (Operator value : values()) {
+      sb.append(value.needsEscape() ? "\\" : "").append(value.token).append("|");
+    }
+    sb.deleteCharAt(sb.length()-1);
+    return String.format("(?<=^|\\s)%s(?=\\s|$)", sb.toString()) ;
   }
 }

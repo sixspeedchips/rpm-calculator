@@ -12,10 +12,10 @@ public class Calculator {
   public void process(InputStream in) {
 
     Deque<Double> operands = new LinkedList<>();
+    String pattern = Operator.tokenPattern();
 
     try(Scanner scanner = new Scanner(in)){
 
-      String pattern = Operator.tokenPattern();
       while (scanner.hasNext()) {
         if (scanner.hasNextDouble()){
             operands.push(scanner.nextDouble());
