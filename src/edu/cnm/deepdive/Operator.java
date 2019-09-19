@@ -1,8 +1,6 @@
 package edu.cnm.deepdive;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import javax.imageio.ImageTranscoder;
+import java.util.Deque;
 
 /**
  * Enumerated values representing operators in a postfix (RPN) calculator. Each operator has a token
@@ -40,11 +38,49 @@ public enum Operator {
     return  token;
   }
 
-  //TODO add operate method with switch; later version will use @Override;
 
-  //fixme
+  public static void operate(String token, Deque<Double> operands){
+
+    Operator operator = null;
+    for (Operator compare : values()) {
+      if(compare.token.equals(token)){
+        operator = compare;
+        break;
+      }
+    }
+    double operand = operands.pop();
+    double result;
+    switch (operator){
+      case ADD:
+        result = operands.pop() + operand;
+        break;
+      case SUBTRACT:
+        result = operands.pop() - operand;
+        break;
+      case POWER:
+        result = Math.pow(operands.pop(),operand);
+        break;
+      case DIVIDE:
+        result = operands.pop() / operand;
+        break;
+      case MODULO:
+        result = operands.pop() % operand;
+        break;
+      case MULTIPLY:
+        result = operands.pop() * operand;
+        break;
+      case SQUARE_ROOT:
+        result = Math.sqrt(operand);
+        break;
+      default:
+        result = 0;
+    }
+    operands.push(result);
+
+  }
+
   public static String tokenPattern(){
+    return "(?<=^|\\s)(\\+|\\-|\\*|\\/|\\^|\\%|sqrt)(?=\\s|$)";
 
-    return "(?:^|\\s)(\\+|\\-|\\*|\\\\|\\^|\\%|sqrt)(?:\\s|$)";
   }
 }

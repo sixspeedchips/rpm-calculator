@@ -9,16 +9,25 @@ import java.util.Scanner;
 public class Calculator {
 
 
-  public void process(InputStream in) throws NoSuchElementException{
+  public void process(InputStream in) {
+
     Deque<Double> operands = new LinkedList<>();
 
     try(Scanner scanner = new Scanner(in)){
-      while (scanner.hasNextDouble()){
-        if(scanner.hasNextDouble()){
-          operands.push(scanner.nextDouble());
+
+      String pattern = Operator.tokenPattern();
+      while (scanner.hasNext()) {
+        if (scanner.hasNextDouble()){
+            operands.push(scanner.nextDouble());
+        } else if (scanner.hasNext(Operator.tokenPattern())){
+          Operator.operate(scanner.next(pattern),operands);
+        } else {
+
+          throw new IllegalArgumentException(scanner.next());
+
         }
       }
-    } catch (Exception ignored) {
+    } catch (NoSuchElementException ignored) {
     } finally {
       System.out.println(operands);
       }
@@ -29,7 +38,10 @@ public class Calculator {
 
   public static void main(String[] args) {
     Calculator calculator = new Calculator();
-    calculator.process(System.in);
+    try {
+      calculator.process(System.in);
+    } catch (IllegalArgumentException ignored) {
+    }
 
   }
 
