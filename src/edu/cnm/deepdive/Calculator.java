@@ -11,6 +11,7 @@ public class Calculator {
 
   public void process(InputStream in) throws NoSuchElementException{
     Deque<Double> operands = new LinkedList<>();
+
     try(Scanner scanner = new Scanner(in)){
       while (scanner.hasNextDouble()){
         if(scanner.hasNextDouble()){
